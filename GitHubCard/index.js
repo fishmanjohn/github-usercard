@@ -41,35 +41,39 @@ masterDiv.appendChild(cardInfo);
 */
 
 
-// axios.get('https://api.github.com/users/fishmanjohn/followers')
-// .then(objAry =>{
+axios.get('https://api.github.com/users/fishmanjohn/followers')
 
-//   console.log(objAry);
-//   const followersArray = objAry.
+  .then(folowersObj =>{
+    console.log(folowersObj);
+    followersData = folowersObj.data
+    console.log(followersData)
+     const followersArray = followersData.map(getLogin)
+     function getLogin(obj){
+       return obj.login;
+     }
+     //console.log(followersArray);
+
+     followersArray.forEach(user =>{
+      axios.get(` https://api.github.com/users/${user}`)
+      .then(data =>{
+        console.log(data);
+        const myInfo = data.data;
+        console.log('userInfo: ', myInfo)
+  
+  const masterDiv = document.querySelector('.cards');
+  const cardInfo = createCard(myInfo)
+  masterDiv.appendChild(cardInfo);
+  
+  })
+  })
+  })
+
+ 
+//const followersArray =['tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell']
 
 
 
-// console.log(followersArray)
-const followersArray =['tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell']
 
-  followersArray.forEach(user =>{
-    axios.get(` https://api.github.com/users/${user}`)
-    .then(data =>{
-      console.log(data);
-      const myInfo = data.data;
-      console.log('userInfo: ', myInfo)
-
-
-
-
-
-//step4 
-const masterDiv = document.querySelector('.cards');
-const cardInfo = createCard(myInfo)
-masterDiv.appendChild(cardInfo);
-
-})
-})
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
 
